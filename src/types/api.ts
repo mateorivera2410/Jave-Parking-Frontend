@@ -1,76 +1,73 @@
 /**
- * Tipos compartidos con el backend NestJS
- * Espejo de las entities y DTOs del backend para tipar el frontend.
+ * Tipos de Jave Parking — espejo de las entities y DTOs del backend
+ * Si el backend cambia un campo, se cambia aquí y TypeScript marca en
+ * rojo todos los archivos del front que hay que ajustar.
  */
 
+// ---------- USERS ----------
 export interface User {
-  id: string;
+  id: string; // Código estudiantil (8 dígitos)
   name: string;
   email: string;
-  age: number;
   phone: string;
-  isActive: boolean;
+  isActive: boolean; // false = cuenta desactivada (soft delete)
+  isInside: boolean; // true = está dentro de la U
 }
 
 export interface CreateUserDto {
   id: string;
   name: string;
   email: string;
-  age: number;
   phone: string;
 }
 
 export interface UpdateUserDto {
   name?: string;
   email?: string;
-  age?: number;
   phone?: string;
+  isInside?: boolean;
 }
 
-export interface Product {
-  id: string;
-  name: string;
-  description: string | null;
-  price: number;
-  stock: number;
-  isActive: boolean;
-  createdAt: string;
+// ---------- CARROS ----------
+export interface Carro {
+  placa: string; // Ej: ABC123
+  userId: string; // Código del dueño
 }
 
-export interface CreateProductDto {
-  name: string;
-  description?: string;
-  price: number;
-  stock: number;
-}
-
-export interface UpdateProductDto {
-  name?: string;
-  description?: string;
-  price?: number;
-  stock?: number;
-}
-
-export interface OrderItem {
-  id: string;
-  orderId: string;
-  productId: string;
-  quantity: number;
-  unitPrice: number;
-  product: Product;
-}
-
-export interface Order {
-  id: string;
+export interface CreateCarroDto {
+  placa: string;
   userId: string;
-  user: User;
-  items: OrderItem[];
-  total: number;
-  status: "PENDING" | "PAID" | "CANCELLED";
-  createdAt: string;
 }
 
-export interface CreateOrderDto {
-  userId: string;
-  items: { productId: string; quantity: number }[];
+// ---------- PARQUEADEROS ----------
+export interface Parqueadero {
+  id: number; // Número del puesto
+  tarifa: number; // Pesos por hora
+  isActive: boolean; // true = ocupado, false = libre
+}
+
+export interface CreateParqueaderoDto {
+  id: number;
+  tarifa: number;
+}
+
+export interface UpdateParqueaderoDto {
+  tarifa?: number;
+  isActive?: boolean;
+}
+
+// ---------- PAGOS ----------
+export interface Pago {
+  id: number; // Número de factura
+  placa: string;
+  parqueaderoId: number;
+  horaEntrada: string; // Viene en hora Colombia: 2026-11-06T15:20:31-05:00
+  horaSalida: string | null; // null = el carro sigue adentro
+  total: number | null; // null hasta que registra la salida
+  isActive: boolean; // true = ya pagó (permiso de salida)
+}
+
+export interface CreatePagoDto {
+  placa: string;
+  parqueaderoId: number;
 }
