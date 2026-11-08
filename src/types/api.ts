@@ -6,7 +6,7 @@
 
 // ---------- USERS ----------
 export interface User {
-  id: string; // Código estudiantil (8 dígitos)
+  id: string; // Código estudiantil (solo números, 6 a 10 dígitos)
   name: string;
   email: string;
   phone: string;

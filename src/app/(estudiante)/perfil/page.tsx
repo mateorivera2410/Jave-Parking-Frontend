@@ -7,7 +7,7 @@ import { useSession } from "@/modules/session/SessionProvider";
 import type { Carro } from "@/types/api";
 import { formatHora, formatPesos } from "@/lib/format";
 import { EntityDetailLayout } from "@/components/ui/EntityDetailLayout";
-import { FormInput, FormPanel } from "@/components/ui/FormControls";
+import { FormPanel, PlacaInput } from "@/components/ui/FormControls";
 import { CarIcon } from "@/components/ui/Icons";
 import { InfoRow, SectionLabel } from "@/components/ui/InfoRow";
 import { Placa } from "@/components/ui/Placa";
@@ -73,7 +73,7 @@ export default function PerfilPage() {
         </div>
       ))}
       <FormPanel onSubmit={agregarCarro} className="flex flex-wrap gap-2">
-        <FormInput className="min-w-[160px] flex-1 font-bold uppercase tracking-[1px] placeholder:font-normal placeholder:normal-case placeholder:tracking-normal" maxLength={6} placeholder="Placa de otro carro (ABC123)" value={placa} onChange={e => setPlaca(e.target.value.toUpperCase())} required />
+        <div className="min-w-[160px] flex-1"><PlacaInput placeholder="Placa de otro carro (ABC 123)" value={placa} onChange={setPlaca} /></div>
         <button className={btn.primary}>+ Agregar carro</button>
       </FormPanel>
 

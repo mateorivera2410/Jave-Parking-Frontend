@@ -1,4 +1,4 @@
-import { FormInput } from "@/components/ui/FormControls";
+import { PlacaInput } from "@/components/ui/FormControls";
 import { btn } from "@/components/ui/buttons";
 
 // Filtro por placa (?placa= en el backend). La página decide qué hacer al filtrar o limpiar.
@@ -10,7 +10,7 @@ export function PagoFilters({ value, onChange, onApply, onClear }: {
 }) {
   return (
     <div className="flex flex-wrap gap-2">
-      <FormInput className="min-w-[160px] flex-1 font-bold uppercase tracking-[1px] placeholder:font-normal placeholder:normal-case placeholder:tracking-normal" placeholder="Buscar facturas por placa (ABC123)" maxLength={6} value={value} onChange={event => onChange(event.target.value.toUpperCase())} />
+      <div className="min-w-[160px] flex-1"><PlacaInput required={false} placeholder="Buscar facturas por placa (ABC 123)" value={value} onChange={onChange} /></div>
       <button type="button" onClick={onApply} className={btn.dark}>Filtrar</button>
       <button type="button" onClick={onClear} className={btn.light}>Limpiar</button>
     </div>

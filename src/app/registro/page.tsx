@@ -6,7 +6,8 @@ import { useState } from "react";
 import { usersService } from "@/modules/users/services/usersService";
 import { carrosService } from "@/modules/carros/services/carrosService";
 import { useSession } from "@/modules/session/SessionProvider";
-import { Field, FormInput } from "@/components/ui/FormControls";
+import { CodigoInput, Field, FormInput, PlacaInput } from "@/components/ui/FormControls";
+import { CODIGO_AYUDA, CODIGO_REGEX } from "@/lib/config";
 import { btnLg } from "@/components/ui/buttons";
 
 const emptyForm = { id: "", name: "", email: "", phone: "", placa: "" };
@@ -21,6 +22,9 @@ export default function RegistroPage() {
 
   async function crearCuenta(event: React.FormEvent) {
     event.preventDefault();
+    // Se revisa antes de enviar para mostrar un mensaje claro
+    if (!CODIGO_REGEX.test(form.id)) return setError(`El código estudiantil debe tener ${CODIGO_AYUDA.toLowerCase()}.`);
+    if (form.placa && form.placa.length !== 6) return setError("La placa debe tener 3 letras y 3 números (ABC 123).");
     try {
       setEnviando(true);
       setError(null);
@@ -53,7 +57,7 @@ export default function RegistroPage() {
 
       <form onSubmit={crearCuenta} className="mt-8 space-y-[18px]">
         <Field label="Código estudiantil">
-          <FormInput inputMode="numeric" maxLength={8} placeholder="8 dígitos" value={form.id} onChange={e => setForm({ ...form, id: e.target.value })} required />
+          <CodigoInput placeholder={CODIGO_AYUDA} value={form.id} onChange={id => setForm({ ...form, id })} />
         </Field>
         <Field label="Nombre completo">
           <FormInput placeholder="Nombres y apellidos" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} required />
@@ -65,7 +69,7 @@ export default function RegistroPage() {
           <FormInput inputMode="tel" placeholder="300 123 4567" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} required />
         </Field>
         <Field label="Placa de tu carro (opcional)">
-          <FormInput className="font-bold uppercase tracking-[1px] placeholder:font-normal placeholder:normal-case placeholder:tracking-normal" maxLength={6} placeholder="ABC123" value={form.placa} onChange={e => setForm({ ...form, placa: e.target.value.toUpperCase() })} />
+          <PlacaInput required={false} placeholder="ABC 123" value={form.placa} onChange={placa => setForm({ ...form, placa })} />
         </Field>
         {error && <p className="rounded-[14px] bg-jave-red-bg p-3 text-sm font-medium text-jave-red">{error}</p>}
         <button disabled={enviando} className={`${btnLg.primary} w-full`}>{enviando ? "Creando..." : "Crear cuenta"}</button>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSession } from "@/modules/session/SessionProvider";
-import { FormInput } from "@/components/ui/FormControls";
+import { CodigoInput } from "@/components/ui/FormControls";
 import { btnLg } from "@/components/ui/buttons";
 
 // Inicio de sesión: basado en "01 - Iniciar Sesión" del Figma.
@@ -26,7 +26,7 @@ export default function LoginPage() {
     try {
       setEntrando(true);
       setError(null);
-      await login(codigo.trim());
+      await login(codigo);
       router.push("/inicio");
     } catch {
       setError("No encontramos una cuenta activa con ese código. ¿Ya creaste tu cuenta?");
@@ -49,7 +49,7 @@ export default function LoginPage() {
           <h2 className="text-[22px] font-semibold text-jave-navy">Bienvenido</h2>
           <p className="mt-2 text-sm text-jave-gray">Inicia sesión con tu código para buscar tu puesto</p>
         </div>
-        <FormInput inputMode="numeric" maxLength={8} placeholder="Código estudiantil (8 dígitos)" value={codigo} onChange={e => setCodigo(e.target.value)} required />
+        <CodigoInput value={codigo} onChange={setCodigo} />
         {error && <p className="rounded-[14px] bg-jave-red-bg p-3 text-sm font-medium text-jave-red">{error}</p>}
         <button disabled={entrando} className={`${btnLg.dark}`}>{entrando ? "Entrando..." : "Iniciar sesión"}</button>
         <Link href="/registro" className={`${btnLg.outline}`}>Crear mi cuenta</Link>
