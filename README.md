@@ -1,6 +1,6 @@
 # Jave Parking — Frontend
 
-Frontend de **Jave Parking**, la app del parqueadero de la **Pontificia Universidad Javeriana Cali**. Cada estudiante entra con su código, registra su carro, escoge un puesto libre en uno de los 3 parqueaderos (Principal, Almendros y Gualanday) y paga su salida por minuto con una tarifa fija. Aparte hay un área de administración. Se conecta al backend NestJS del proyecto.
+Frontend de **Jave Parking**, la app del parqueadero de la **Pontificia Universidad Javeriana Cali**. Cada estudiante entra con su código, registra su carro, escoge un puesto libre en uno de los 3 parqueaderos (Principal, Almendros y Gualanday) y paga su salida con una tarifa fija (mínimo 1 hora, después por minuto). Aparte hay un área de administración. Se conecta al backend NestJS del proyecto.
 
 **App en línea:** [https://jave-parking-frontend.vercel.app](https://jave-parking-frontend.vercel.app)
 **Backend (repositorio):** [mateorivera2410/Jave-Parking](https://github.com/mateorivera2410/Jave-Parking)
@@ -75,14 +75,15 @@ Las carpetas con corchetes (`[zona]`, `[id]`, `[placa]`) son **rutas dinámicas*
 | C · Gualanday | 41 a 60 |
 
 - El backend guarda cada puesto con un número; el parqueadero al que pertenece se define por rangos en `src/modules/parqueaderos/zonas.ts`. Para agregar puestos o cambiar los rangos, solo se cambia ese archivo.
-- La **tarifa es fija** para todos los puestos: **$3.000 por hora**, cobrada por minuto. Está en `src/lib/config.ts` (`TARIFA_HORA`). El estudiante no la puede cambiar.
+- La **tarifa es fija** para todos los puestos: **$3.000 por hora**. Está en `src/lib/config.ts` (`TARIFA_HORA`). El estudiante no la puede cambiar.
+- **Cobro:** mínimo 1 hora ($3.000) y después por minuto. Ej: 20 min = $3.000 · 1 h 10 min = $3.500. El total lo calcula el backend; el front solo muestra cuánto va con la misma fórmula (`calcularCobro` en `src/lib/config.ts`).
 
 ## Flujo principal
 
 1. El estudiante **crea su cuenta** (o inicia sesión con su código).
 2. Registra su **carro** (la placa se puede escribir `ABC 123` o `abc123`).
 3. Escoge un **parqueadero** y toca un **puesto libre** en el mapa: se crea la factura, el puesto queda ocupado y él queda "dentro".
-4. En **Pago** ve cuánto lleva y **paga su salida**: el backend calcula el total por minuto, libera el puesto y lo marca "fuera".
+4. En **Pago** ve cuánto lleva y **paga su salida**: el backend calcula el total (mínimo 1 hora, después por minuto), libera el puesto y lo marca "fuera".
 
 ## Estructura (por módulos y componentes)
 

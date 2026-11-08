@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { parqueaderosService } from "@/modules/parqueaderos/services/parqueaderosService";
 import { useSession } from "@/modules/session/SessionProvider";
 import type { Parqueadero } from "@/types/api";
-import { TARIFA_HORA } from "@/lib/config";
+import { TARIFA_HORA, TEXTO_COBRO } from "@/lib/config";
 import { formatHora, formatPesos } from "@/lib/format";
 import { ListaParqueaderos } from "@/components/parqueaderos/ListaParqueaderos";
 import { AvisoSinCarro } from "@/components/estudiante/AvisoSinCarro";
@@ -33,7 +33,7 @@ export default function InicioPage() {
         <div className="pointer-events-none absolute -right-10 -top-14 size-28 rounded-full bg-jave-yellow/90" />
         <p className="relative text-xs font-bold uppercase tracking-[1.2px] text-jave-yellow">Jave Parking</p>
         <h1 className="relative mt-1 text-3xl font-bold">Hola, {nombre}</h1>
-        <p className="relative mt-1 text-sm text-white/75">Tarifa fija de {formatPesos(TARIFA_HORA)}/hora · pagas solo los minutos que estés</p>
+        <p className="relative mt-1 text-sm text-white/75">Tarifa fija de {formatPesos(TARIFA_HORA)}/hora · {TEXTO_COBRO}</p>
       </section>
 
       {/* Lo más importante primero: si está adentro, si le falta el carro o si puede buscar puesto */}

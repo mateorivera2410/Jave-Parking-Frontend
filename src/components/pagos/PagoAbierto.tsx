@@ -4,6 +4,7 @@ import { formatDuracion, formatHora, formatPesos, minutosEntre } from "@/lib/for
 import { InfoRow, SectionLabel } from "@/components/ui/InfoRow";
 import { Placa } from "@/components/ui/Placa";
 import { btnLg } from "@/components/ui/buttons";
+import { TEXTO_COBRO, calcularCobro } from "@/lib/config";
 import { zonaDePuesto } from "@/modules/parqueaderos/zonas";
 
 // Contenido de "06 - Pago" del Figma: factura abierta (el carro sigue adentro).
@@ -17,7 +18,7 @@ export function PagoAbierto({ pago, tarifa, puestoHref, pagando, onPagar }: {
 }) {
   const minutos = minutosEntre(pago.horaEntrada, null);
   // Misma fórmula del backend, solo para mostrar cuánto va (el total real lo calcula el backend)
-  const estimado = tarifa === null ? null : Math.round((minutos * tarifa) / 60);
+  const estimado = tarifa === null ? null : calcularCobro(minutos, tarifa);
 
   return (
     <>
@@ -38,7 +39,7 @@ export function PagoAbierto({ pago, tarifa, puestoHref, pagando, onPagar }: {
       <div className="flex items-center gap-4 rounded-[18px] bg-jave-navy p-[18px]">
         <div className="flex-1">
           <p className="font-medium text-white">Total hasta ahora</p>
-          <p className="text-xs text-jave-yellow">Tarifa fija: {formatPesos(tarifa)}/hora · se cobra por minuto</p>
+          <p className="text-xs text-jave-yellow">Tarifa fija: {formatPesos(tarifa)}/hora · {TEXTO_COBRO}</p>
         </div>
         <p className="text-2xl font-bold text-jave-yellow">{formatPesos(estimado)}</p>
       </div>

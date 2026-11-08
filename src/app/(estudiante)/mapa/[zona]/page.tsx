@@ -15,6 +15,7 @@ import { AvisoSinCarro } from "@/components/estudiante/AvisoSinCarro";
 import { EmptyState, ErrorState, LoadingState } from "@/components/ui/AsyncState";
 import { FormSelect } from "@/components/ui/FormControls";
 import { btn, btnLg } from "@/components/ui/buttons";
+import { TEXTO_COBRO } from "@/lib/config";
 
 // Mapa de UN parqueadero: "05 - Selección de Cupo" del Figma.
 // La carpeta [zona] es la ruta dinámica: /mapa/almendros. El estudiante toca un puesto libre y registra su entrada.
@@ -120,7 +121,7 @@ export default function MapaZonaPage({ params }: { params: Promise<{ zona: strin
             <span className="flex size-14 shrink-0 items-center justify-center rounded-[14px] bg-jave-green text-2xl font-bold text-white">{elegido.id}</span>
             <div className="flex-1">
               <p className="font-semibold text-jave-navy">{nombrePuesto(elegido.id)}</p>
-              <p className="text-sm text-jave-gray">{formatPesos(elegido.tarifa)}/hora · se cobra por minuto</p>
+              <p className="text-sm text-jave-gray">{formatPesos(elegido.tarifa)}/hora · {TEXTO_COBRO}</p>
             </div>
             <button onClick={() => setElegido(null)} aria-label="Cancelar" className="flex size-9 items-center justify-center rounded-full bg-jave-card text-jave-gray hover:text-jave-navy">✕</button>
           </div>

@@ -9,6 +9,7 @@ import { EmptyState, ErrorState, LoadingState } from "@/components/ui/AsyncState
 import { EntityDetailLayout } from "@/components/ui/EntityDetailLayout";
 import { InfoRow } from "@/components/ui/InfoRow";
 import { btn } from "@/components/ui/buttons";
+import { TEXTO_COBRO } from "@/lib/config";
 import { zonaDePuesto } from "@/modules/parqueaderos/zonas";
 
 // Detalle del puesto (admin): basado en "04 - Detalle Parqueadero" del Figma
@@ -34,7 +35,7 @@ export default function ParqueaderoDetailPage({ params }: { params: Promise<{ id
   const libre = !parqueadero.isActive;
 
   return (
-    <EntityDetailLayout backHref="/admin/parqueaderos" backLabel="puestos" title={`Puesto ${parqueadero.id}`} description={`${zonaDePuesto(parqueadero.id)?.nombre ?? "Sin parqueadero asignado"} · Cobro por minuto`}>
+    <EntityDetailLayout backHref="/admin/parqueaderos" backLabel="puestos" title={`Puesto ${parqueadero.id}`} description={`${zonaDePuesto(parqueadero.id)?.nombre ?? "Sin parqueadero asignado"} · Cobro: ${TEXTO_COBRO}`}>
       <div className={`flex items-center gap-4 rounded-[18px] p-5 ${libre ? "bg-jave-green-bg text-jave-green" : "bg-jave-red-bg text-jave-red"}`}>
         <span className="text-5xl font-bold">{parqueadero.id}</span>
         <span>
@@ -46,7 +47,7 @@ export default function ParqueaderoDetailPage({ params }: { params: Promise<{ id
       <div className="space-y-3 rounded-[18px] bg-jave-card p-[18px]">
         <InfoRow label="Tipo de vehículo">Carro</InfoRow>
         <InfoRow label="Tarifa (fija)">{formatPesos(parqueadero.tarifa)} / hora</InfoRow>
-        <InfoRow label="Cobro">Por minuto</InfoRow>
+        <InfoRow label="Cobro">Mínimo 1 hora, después por minuto</InfoRow>
       </div>
 
       <button onClick={() => void remove()} className={`${btn.danger} w-full`}>Eliminar puesto</button>
