@@ -12,6 +12,7 @@ import { EntityDetailLayout } from "@/components/ui/EntityDetailLayout";
 import { SectionLabel } from "@/components/ui/InfoRow";
 import { Placa } from "@/components/ui/Placa";
 import { StatusPill } from "@/components/ui/StatusPill";
+import { nombrePuesto } from "@/modules/parqueaderos/zonas";
 
 export default function CarroDetailPage({ params }: { params: Promise<{ placa: string }> }) {
   // La carpeta se llama [placa], por eso el parámetro es "placa": /carros/ABC123
@@ -43,7 +44,7 @@ export default function CarroDetailPage({ params }: { params: Promise<{ placa: s
           <span className="flex size-12 shrink-0 items-center justify-center rounded-[14px] bg-gradient-to-br from-jave-navy-2 to-jave-navy font-bold text-jave-yellow">{pago.parqueaderoId}</span>
           <span className="flex-1">
             <span className="block font-semibold text-jave-navy">Factura #{pago.id}</span>
-            <span className="block text-xs text-jave-gray">Puesto {pago.parqueaderoId} • {formatHora(pago.horaEntrada)}</span>
+            <span className="block text-xs text-jave-gray">{nombrePuesto(pago.parqueaderoId)} • {formatHora(pago.horaEntrada)}</span>
           </span>
           {pago.horaSalida ? <span className="font-bold text-jave-navy">{formatPesos(pago.total)}</span> : <StatusPill tone="amber">Adentro</StatusPill>}
         </Link>

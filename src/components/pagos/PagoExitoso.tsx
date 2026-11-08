@@ -4,6 +4,7 @@ import { formatDuracion, formatHora, formatPesos, minutosEntre } from "@/lib/for
 import { InfoRow } from "@/components/ui/InfoRow";
 import { Placa } from "@/components/ui/Placa";
 import { btnLg } from "@/components/ui/buttons";
+import { nombrePuesto } from "@/modules/parqueaderos/zonas";
 
 // "07 - Pago exitoso" del Figma: factura ya pagada.
 export function PagoExitoso({ pago, backHref, backLabel }: { pago: Pago; backHref: string; backLabel: string }) {
@@ -18,7 +19,7 @@ export function PagoExitoso({ pago, backHref, backLabel }: { pago: Pago; backHre
       </div>
       <div className="space-y-3 rounded-[18px] bg-jave-card p-[18px] text-left">
         <InfoRow label="Placa"><Placa placa={pago.placa} /></InfoRow>
-        <InfoRow label="Puesto">{pago.parqueaderoId}</InfoRow>
+        <InfoRow label="Puesto">{nombrePuesto(pago.parqueaderoId)}</InfoRow>
         <InfoRow label="Entrada">{formatHora(pago.horaEntrada)}</InfoRow>
         <InfoRow label="Salida">{formatHora(pago.horaSalida)}</InfoRow>
         <InfoRow label="Tiempo total">{formatDuracion(minutosEntre(pago.horaEntrada, pago.horaSalida))}</InfoRow>

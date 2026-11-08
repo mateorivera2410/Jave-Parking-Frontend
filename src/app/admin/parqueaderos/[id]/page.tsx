@@ -9,6 +9,7 @@ import { EmptyState, ErrorState, LoadingState } from "@/components/ui/AsyncState
 import { EntityDetailLayout } from "@/components/ui/EntityDetailLayout";
 import { InfoRow } from "@/components/ui/InfoRow";
 import { btn } from "@/components/ui/buttons";
+import { zonaDePuesto } from "@/modules/parqueaderos/zonas";
 
 // Detalle del puesto (admin): basado en "04 - Detalle Parqueadero" del Figma
 export default function ParqueaderoDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -33,7 +34,7 @@ export default function ParqueaderoDetailPage({ params }: { params: Promise<{ id
   const libre = !parqueadero.isActive;
 
   return (
-    <EntityDetailLayout backHref="/admin/parqueaderos" backLabel="puestos" title={`Puesto ${parqueadero.id}`} description="Parqueadero Javeriana · Cobro por minuto">
+    <EntityDetailLayout backHref="/admin/parqueaderos" backLabel="puestos" title={`Puesto ${parqueadero.id}`} description={`${zonaDePuesto(parqueadero.id)?.nombre ?? "Sin parqueadero asignado"} · Cobro por minuto`}>
       <div className={`flex items-center gap-4 rounded-[18px] p-5 ${libre ? "bg-jave-green-bg text-jave-green" : "bg-jave-red-bg text-jave-red"}`}>
         <span className="text-5xl font-bold">{parqueadero.id}</span>
         <span>

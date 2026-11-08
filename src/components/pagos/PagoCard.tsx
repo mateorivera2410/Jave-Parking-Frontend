@@ -6,6 +6,7 @@ import { InfoRow } from "@/components/ui/InfoRow";
 import { Placa } from "@/components/ui/Placa";
 import { StatusPill } from "@/components/ui/StatusPill";
 import { btn } from "@/components/ui/buttons";
+import { nombrePuesto } from "@/modules/parqueaderos/zonas";
 
 // Una factura. Si el carro sigue adentro lleva a pagar la salida; si ya pagó, deja verla o eliminarla.
 export function PagoCard({ pago, onDelete }: { pago: Pago; onDelete: (pago: Pago) => void }) {
@@ -18,7 +19,7 @@ export function PagoCard({ pago, onDelete }: { pago: Pago; onDelete: (pago: Pago
       </div>
       <div className="mt-3 flex items-center gap-3">
         <Placa placa={pago.placa} />
-        <span className="text-sm text-jave-gray">Puesto {pago.parqueaderoId}</span>
+        <span className="text-sm text-jave-gray">{nombrePuesto(pago.parqueaderoId)}</span>
       </div>
       <div className="mt-4 space-y-2">
         <InfoRow label="Entrada">{formatHora(pago.horaEntrada)}</InfoRow>

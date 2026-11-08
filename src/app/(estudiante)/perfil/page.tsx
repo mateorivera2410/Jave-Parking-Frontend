@@ -14,6 +14,7 @@ import { Placa } from "@/components/ui/Placa";
 import { StatusPill } from "@/components/ui/StatusPill";
 import { btn } from "@/components/ui/buttons";
 import { UserAvatar } from "@/components/users/UserAvatar";
+import { nombrePuesto } from "@/modules/parqueaderos/zonas";
 
 // Perfil del estudiante: "10 - Perfil" del Figma. Sus datos, sus carros, su historial y cerrar sesión.
 export default function PerfilPage() {
@@ -83,7 +84,7 @@ export default function PerfilPage() {
           <span className="flex size-11 shrink-0 items-center justify-center rounded-[14px] bg-gradient-to-br from-jave-navy-2 to-jave-navy font-bold text-jave-yellow">{p.parqueaderoId}</span>
           <span className="flex-1">
             <span className="block font-semibold text-jave-navy">Factura #{p.id} · <span className="font-normal">{p.placa}</span></span>
-            <span className="block text-xs text-jave-gray">{formatHora(p.horaEntrada)}</span>
+            <span className="block text-xs text-jave-gray">{nombrePuesto(p.parqueaderoId)} · {formatHora(p.horaEntrada)}</span>
           </span>
           {p.horaSalida ? <span className="font-bold text-jave-navy">{formatPesos(p.total)}</span> : <StatusPill tone="amber">Adentro</StatusPill>}
         </div>

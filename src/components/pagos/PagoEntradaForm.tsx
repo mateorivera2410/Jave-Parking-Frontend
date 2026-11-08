@@ -2,6 +2,7 @@ import type { Carro, Parqueadero } from "@/types/api";
 import { FormPanel, FormSelect } from "@/components/ui/FormControls";
 import { formatPesos, formatPlaca } from "@/lib/format";
 import { btn } from "@/components/ui/buttons";
+import { nombrePuesto } from "@/modules/parqueaderos/zonas";
 
 export type PagoFormValues = { placa: string; parqueaderoId: string };
 
@@ -21,7 +22,7 @@ export function PagoEntradaForm({ carros, puestosLibres, value, onChange, onSubm
       </FormSelect>
       <FormSelect value={value.parqueaderoId} onChange={event => onChange({ ...value, parqueaderoId: event.target.value })} required>
         <option value="">Selecciona un puesto libre…</option>
-        {puestosLibres.map(p => <option key={p.id} value={p.id}>Puesto {p.id} — {formatPesos(p.tarifa)}/h</option>)}
+        {puestosLibres.map(p => <option key={p.id} value={p.id}>{nombrePuesto(p.id)} — {formatPesos(p.tarifa)}/h</option>)}
       </FormSelect>
       <button className={btn.primary}>Registrar entrada →</button>
     </FormPanel>

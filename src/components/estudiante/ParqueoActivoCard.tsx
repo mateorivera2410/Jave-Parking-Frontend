@@ -4,6 +4,7 @@ import { formatDuracion, formatHora, minutosEntre } from "@/lib/format";
 import { Placa } from "@/components/ui/Placa";
 import { StatusPill } from "@/components/ui/StatusPill";
 import { btn } from "@/components/ui/buttons";
+import { nombrePuesto } from "@/modules/parqueaderos/zonas";
 
 // Tarjeta "estás parqueado": aparece cuando el estudiante tiene una factura abierta.
 export function ParqueoActivoCard({ pago }: { pago: Pago }) {
@@ -17,6 +18,7 @@ export function ParqueoActivoCard({ pago }: { pago: Pago }) {
         <span className="flex size-14 shrink-0 items-center justify-center rounded-[14px] bg-jave-red text-2xl font-bold text-white">{pago.parqueaderoId}</span>
         <div className="space-y-1">
           <Placa placa={pago.placa} />
+          <p className="text-sm font-semibold text-jave-navy">{nombrePuesto(pago.parqueaderoId)}</p>
           <p className="text-xs text-jave-gray">Desde {formatHora(pago.horaEntrada)} · {formatDuracion(minutosEntre(pago.horaEntrada, null))}</p>
         </div>
       </div>

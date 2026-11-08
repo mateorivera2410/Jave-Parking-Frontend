@@ -7,13 +7,14 @@ import { useSession } from "@/modules/session/SessionProvider";
 import type { Parqueadero } from "@/types/api";
 import { TARIFA_HORA } from "@/lib/config";
 import { formatHora, formatPesos } from "@/lib/format";
-import { DisponibilidadCard } from "@/components/parqueaderos/DisponibilidadCard";
+import { ListaParqueaderos } from "@/components/parqueaderos/ListaParqueaderos";
 import { AvisoSinCarro } from "@/components/estudiante/AvisoSinCarro";
 import { ParqueoActivoCard } from "@/components/estudiante/ParqueoActivoCard";
 import { SectionLabel } from "@/components/ui/InfoRow";
 import { Placa } from "@/components/ui/Placa";
 import { StatusPill } from "@/components/ui/StatusPill";
 import { btn } from "@/components/ui/buttons";
+import { nombrePuesto } from "@/modules/parqueaderos/zonas";
 
 // Inicio del estudiante: su estado (adentro o no), los cupos libres y sus últimas facturas.
 export default function InicioPage() {
@@ -24,7 +25,6 @@ export default function InicioPage() {
     parqueaderosService.getAll().then(setPuestos).catch(() => setPuestos([]));
   }, []);
 
-  const libres = puestos.filter(p => !p.isActive).length;
   const nombre = user?.name.split(" ")[0] ?? "";
 
   return (
@@ -43,8 +43,8 @@ export default function InicioPage() {
         <AvisoSinCarro />
       ) : (
         <div className="space-y-3">
-          <DisponibilidadCard libres={libres} total={puestos.length} />
-          <Link href="/mapa" className={`${btn.primary} w-full`}>Buscar puesto en el mapa</Link>
+          <ListaParqueaderos puestos={puestos} hrefBase="/mapa" />
+          <Link href="/mapa" className={`${btn.primary} w-full`}>Buscar puesto</Link>
         </div>
       )}
 
@@ -64,7 +64,7 @@ export default function InicioPage() {
           <span className="flex size-11 shrink-0 items-center justify-center rounded-[14px] bg-gradient-to-br from-jave-navy-2 to-jave-navy font-bold text-jave-yellow">{p.parqueaderoId}</span>
           <span className="flex-1">
             <span className="block font-semibold text-jave-navy">Factura #{p.id}</span>
-            <span className="block text-xs text-jave-gray">{formatHora(p.horaEntrada)}</span>
+            <span className="block text-xs text-jave-gray">{nombrePuesto(p.parqueaderoId)} · {formatHora(p.horaEntrada)}</span>
           </span>
           {p.horaSalida ? <span className="font-bold text-jave-navy">{formatPesos(p.total)}</span> : <StatusPill tone="amber">Adentro</StatusPill>}
         </div>

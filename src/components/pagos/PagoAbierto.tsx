@@ -4,6 +4,7 @@ import { formatDuracion, formatHora, formatPesos, minutosEntre } from "@/lib/for
 import { InfoRow, SectionLabel } from "@/components/ui/InfoRow";
 import { Placa } from "@/components/ui/Placa";
 import { btnLg } from "@/components/ui/buttons";
+import { zonaDePuesto } from "@/modules/parqueaderos/zonas";
 
 // Contenido de "06 - Pago" del Figma: factura abierta (el carro sigue adentro).
 // Lo usan la pantalla Pago del estudiante y el detalle de factura del admin.
@@ -23,6 +24,7 @@ export function PagoAbierto({ pago, tarifa, puestoHref, pagando, onPagar }: {
       <SectionLabel>Datos del vehículo</SectionLabel>
       <div className="space-y-3 rounded-[18px] bg-jave-card p-[18px]">
         <InfoRow label="Placa"><Placa placa={pago.placa} /></InfoRow>
+        <InfoRow label="Parqueadero">{zonaDePuesto(pago.parqueaderoId)?.nombre.replace("Parqueadero ", "") ?? "—"}</InfoRow>
         <InfoRow label="Puesto">{puestoHref ? <Link href={puestoHref} className="hover:underline">{pago.parqueaderoId}</Link> : pago.parqueaderoId}</InfoRow>
       </div>
 
