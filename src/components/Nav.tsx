@@ -2,19 +2,30 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-import { CardIcon, CarIcon, ParkingIcon, UserIcon } from "@/components/ui/Icons";
+import { CardIcon, CarIcon, MapIcon, ParkingIcon, UserIcon } from "@/components/ui/Icons";
 
-// Un enlace por cada módulo del backend. Para agregar un módulo nuevo, solo se agrega aquí.
-const links: { href: string; label: string; icon: ReactNode }[] = [
-  { href: "/parqueaderos", label: "Puestos", icon: <ParkingIcon /> },
-  { href: "/pagos", label: "Pagos", icon: <CardIcon /> },
-  { href: "/carros", label: "Carros", icon: <CarIcon /> },
-  { href: "/users", label: "Usuarios", icon: <UserIcon /> },
+type NavLink = { href: string; label: string; icon: ReactNode };
+
+// Menú del ESTUDIANTE (igual a la barra inferior del Figma: Inicio, Mapa, Pago, Perfil)
+const estudianteLinks: NavLink[] = [
+  { href: "/inicio", label: "Inicio", icon: <ParkingIcon /> },
+  { href: "/mapa", label: "Mapa", icon: <MapIcon /> },
+  { href: "/pago", label: "Pago", icon: <CardIcon /> },
+  { href: "/perfil", label: "Perfil", icon: <UserIcon /> },
+];
+
+// Menú del ADMINISTRADOR (un enlace por cada módulo del backend)
+const adminLinks: NavLink[] = [
+  { href: "/admin/parqueaderos", label: "Puestos", icon: <ParkingIcon /> },
+  { href: "/admin/pagos", label: "Pagos", icon: <CardIcon /> },
+  { href: "/admin/carros", label: "Carros", icon: <CarIcon /> },
+  { href: "/admin/users", label: "Usuarios", icon: <UserIcon /> },
 ];
 
 // variant="top": botones del header (computador) · variant="bottom": barra inferior (celular), como en el Figma
-export default function Nav({ variant }: { variant: "top" | "bottom" }) {
+export default function Nav({ area, variant }: { area: "estudiante" | "admin"; variant: "top" | "bottom" }) {
   const pathname = usePathname(); // ruta actual, para iluminar el botón de la página donde estás
+  const links = area === "admin" ? adminLinks : estudianteLinks;
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 
   if (variant === "top") {

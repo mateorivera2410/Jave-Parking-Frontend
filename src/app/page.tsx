@@ -1,45 +1,64 @@
+"use client";
+
 import Link from "next/link";
-import { HomeShortcutCard } from "@/components/HomeShortcutCard";
-import { CardIcon, CarIcon, ParkingIcon, UserIcon } from "@/components/ui/Icons";
-import { btn } from "@/components/ui/buttons";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSession } from "@/modules/session/SessionProvider";
+import { FormInput } from "@/components/ui/FormControls";
+import { btnLg } from "@/components/ui/buttons";
 
-const integrantes = ["Mateo Rivera Prados", "Diego Alejandro Calvo", "Jan Pieter Lelie", "Carlos Sánchez"];
+// Inicio de sesión: basado en "01 - Iniciar Sesión" del Figma.
+// El estudiante entra con su código estudiantil.
+export default function LoginPage() {
+  const { user, loading, login } = useSession();
+  const router = useRouter();
+  const [codigo, setCodigo] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [entrando, setEntrando] = useState(false);
 
-// Inicio: basado en la pantalla "00 - Portada" del Figma
-export default function Home() {
+  // Si ya inició sesión antes, pasa directo a la app
+  useEffect(() => {
+    if (!loading && user) router.replace("/inicio");
+  }, [loading, user, router]);
+
+  async function entrar(event: React.FormEvent) {
+    event.preventDefault();
+    try {
+      setEntrando(true);
+      setError(null);
+      await login(codigo.trim());
+      router.push("/inicio");
+    } catch {
+      setError("No encontramos una cuenta activa con ese código. ¿Ya creaste tu cuenta?");
+    } finally {
+      setEntrando(false);
+    }
+  }
+
   return (
-    <div className="space-y-6">
-      <section className="relative overflow-hidden rounded-[32px] bg-jave-navy px-6 py-12 text-center text-white sm:py-16">
-        <div className="pointer-events-none absolute -right-16 -top-20 size-52 rounded-full bg-jave-yellow/90" />
-        <div className="pointer-events-none absolute -bottom-16 -left-14 size-36 rounded-full bg-white/15" />
-        <div className="relative">
-          <span className="mx-auto flex size-28 items-center justify-center rounded-full bg-white text-7xl font-bold text-jave-navy">P</span>
-          <h1 className="mt-6 text-4xl font-bold sm:text-5xl">Jave Parking</h1>
-          <p className="mt-2 text-jave-yellow">App de parqueadero universitario</p>
-          <p className="mx-auto mt-4 max-w-md text-sm text-white/75">Mira qué puestos están libres, registra tu entrada y paga solo los minutos que estuviste dentro de la U.</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link href="/parqueaderos" className={btn.primary}>Ver puestos libres</Link>
-            <Link href="/pagos" className={btn.onDark}>Registrar entrada</Link>
-          </div>
-        </div>
-      </section>
+    <div className="mx-auto flex min-h-screen max-w-md flex-col bg-white">
+      <header className="relative overflow-hidden rounded-b-[40px] bg-jave-navy md:mt-8 md:rounded-t-[40px] px-6 pb-14 pt-24 text-center text-white">
+        <div className="pointer-events-none absolute -right-8 -top-8 size-[120px] rounded-full bg-jave-yellow/90" />
+        <span className="mx-auto flex size-[110px] items-center justify-center rounded-full bg-white text-[64px] font-bold text-jave-navy">P</span>
+        <h1 className="mt-6 text-[32px] font-bold">Jave Parking</h1>
+        <p className="mt-1 text-[15px] text-jave-yellow">Parqueadero Universitario</p>
+      </header>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-        {/* Un acceso directo por cada módulo del backend */}
-        <div className="grid gap-3 sm:grid-cols-2">
-          <HomeShortcutCard href="/parqueaderos" icon={<ParkingIcon />} title="Puestos" description="Mapa de puestos libres y ocupados" />
-          <HomeShortcutCard href="/pagos" icon={<CardIcon />} title="Pagos" description="Entradas, salidas y cobros" />
-          <HomeShortcutCard href="/carros" icon={<CarIcon />} title="Carros" description="Vehículos y su dueño" />
-          <HomeShortcutCard href="/users" icon={<UserIcon />} title="Usuarios" description="Estudiantes con su código" />
+      <form onSubmit={entrar} className="flex flex-1 flex-col gap-4 px-6 pt-10">
+        <div className="text-center">
+          <h2 className="text-[22px] font-semibold text-jave-navy">Bienvenido</h2>
+          <p className="mt-2 text-sm text-jave-gray">Inicia sesión con tu código para buscar tu puesto</p>
         </div>
-        <div className="rounded-[20px] bg-white p-6 shadow-[0_10px_30px_-12px_rgba(20,44,110,0.25)] ring-1 ring-jave-line">
-          <p className="text-xs font-semibold uppercase tracking-[0.8px] text-jave-gray">Integrantes del equipo</p>
-          <ul className="mt-3 space-y-2">
-            {integrantes.map((nombre, i) => <li key={nombre} className={i === 0 ? "font-semibold text-jave-navy" : "text-jave-gray"}>{nombre}</li>)}
-          </ul>
-          <p className="mt-5 text-xs text-jave-yellow-2">Pontificia Universidad Javeriana Cali</p>
-        </div>
-      </div>
+        <FormInput inputMode="numeric" maxLength={8} placeholder="Código estudiantil (8 dígitos)" value={codigo} onChange={e => setCodigo(e.target.value)} required />
+        {error && <p className="rounded-[14px] bg-jave-red-bg p-3 text-sm font-medium text-jave-red">{error}</p>}
+        <button disabled={entrando} className={`${btnLg.dark}`}>{entrando ? "Entrando..." : "Iniciar sesión"}</button>
+        <Link href="/registro" className={`${btnLg.outline}`}>Crear mi cuenta</Link>
+        <div className="flex-1" />
+        <p className="pb-6 text-center text-xs text-jave-gray">
+          Pontificia Universidad Javeriana Cali ·{" "}
+          <Link href="/admin" className="font-semibold text-jave-navy hover:underline">Administración</Link>
+        </p>
+      </form>
     </div>
   );
 }

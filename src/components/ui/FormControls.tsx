@@ -27,3 +27,13 @@ export function FormPanel({ children, onSubmit, className = "" }: {
 
   return <form onSubmit={submit} className={`rounded-[18px] bg-jave-card p-4 ${className}`}>{children}</form>;
 }
+
+// Campo con su título arriba, como en las pantallas de login del Figma.
+export function Field({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <label className="block space-y-2">
+      <span className="text-sm font-semibold text-jave-navy">{label}</span>
+      {children}
+    </label>
+  );
+}

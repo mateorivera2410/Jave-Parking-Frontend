@@ -32,10 +32,10 @@ export function PagoCard({ pago, onDelete }: { pago: Pago; onDelete: (pago: Pago
       )}
       <div className="mt-4 grid grid-cols-2 gap-2">
         {adentro ? (
-          <Link href={`/pagos/${pago.id}`} className={`${btn.primary} col-span-2`}>Pagar y registrar salida</Link>
+          <Link href={`/admin/pagos/${pago.id}`} className={`${btn.primary} col-span-2`}>Pagar y registrar salida</Link>
         ) : (
           <>
-            <Link href={`/pagos/${pago.id}`} className={btn.dark}>Ver factura</Link>
+            <Link href={`/admin/pagos/${pago.id}`} className={btn.dark}>Ver factura</Link>
             <button onClick={() => onDelete(pago)} className={btn.danger}>Eliminar</button>
           </>
         )}

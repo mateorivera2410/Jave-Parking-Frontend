@@ -29,17 +29,17 @@ export default function CarroDetailPage({ params }: { params: Promise<{ placa: s
   if (!carro) return <EmptyState>Carro no encontrado</EmptyState>;
 
   return (
-    <EntityDetailLayout backHref="/carros" backLabel="carros" header={
+    <EntityDetailLayout backHref="/admin/carros" backLabel="carros" header={
       <div className="space-y-3">
         <Placa placa={carro.placa} size="lg" />
         <p className="text-sm text-jave-yellow">
-          Dueño: <Link href={`/users/${carro.userId}`} className="font-semibold underline-offset-2 hover:underline">{carro.userId}</Link>
+          Dueño: <Link href={`/admin/users/${carro.userId}`} className="font-semibold underline-offset-2 hover:underline">{carro.userId}</Link>
         </p>
       </div>
     }>
       <SectionLabel>Historial de facturas ({pagos.length})</SectionLabel>
       {pagos.map(pago => (
-        <Link key={pago.id} href={`/pagos/${pago.id}`} className="flex items-center gap-4 rounded-[18px] bg-jave-card p-4 text-sm transition hover:bg-[#e9edf3]">
+        <Link key={pago.id} href={`/admin/pagos/${pago.id}`} className="flex items-center gap-4 rounded-[18px] bg-jave-card p-4 text-sm transition hover:bg-[#e9edf3]">
           <span className="flex size-12 shrink-0 items-center justify-center rounded-[14px] bg-gradient-to-br from-jave-navy-2 to-jave-navy font-bold text-jave-yellow">{pago.parqueaderoId}</span>
           <span className="flex-1">
             <span className="block font-semibold text-jave-navy">Factura #{pago.id}</span>

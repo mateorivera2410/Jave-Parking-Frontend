@@ -1,3 +1,5 @@
+import { MapaLegend } from "./MapaLegend";
+
 // Filtro de puestos: "" = todos, "false" = libres, "true" = ocupados (igual que ?ocupado= del backend)
 const opciones = [
   { value: "", label: "Todos" },
@@ -19,11 +21,7 @@ export function ParqueaderoFilters({ value, onChange }: {
           </button>
         ))}
       </div>
-      {/* Leyenda de colores, igual que en el mapa del Figma */}
-      <div className="flex items-center gap-[18px] text-xs font-semibold text-jave-gray">
-        <span className="flex items-center gap-1.5"><span className="size-[9px] rounded-[3px] bg-jave-green" />Libre</span>
-        <span className="flex items-center gap-1.5"><span className="size-[9px] rounded-[3px] bg-jave-red" />Ocupado</span>
-      </div>
+      <MapaLegend />
     </div>
   );
 }

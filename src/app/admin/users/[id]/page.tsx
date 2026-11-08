@@ -33,7 +33,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
     if (!user || !confirm(`¿Desactivar a ${user.name}?`)) return;
     try {
       await usersService.delete(user.id); // Soft delete: isActive = false
-      router.push("/users");
+      router.push("/admin/users");
     } catch (e: unknown) {
       alert(e instanceof Error ? e.message : String(e));
     }
@@ -44,7 +44,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
   if (!user) return <EmptyState>Usuario no encontrado</EmptyState>;
 
   return (
-    <EntityDetailLayout backHref="/users" backLabel="usuarios" header={
+    <EntityDetailLayout backHref="/admin/users" backLabel="usuarios" header={
       <div className="flex flex-col items-center gap-3 text-center">
         <UserAvatar name={user.name} size="lg" />
         <h1 className="text-[21px] font-bold">{user.name}</h1>
@@ -60,7 +60,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
 
       <SectionLabel>Mis vehículos ({carros.length})</SectionLabel>
       {carros.map(carro => (
-        <Link key={carro.placa} href={`/carros/${carro.placa}`} className="flex items-center gap-4 rounded-[18px] bg-jave-card p-4 transition hover:bg-[#e9edf3]">
+        <Link key={carro.placa} href={`/admin/carros/${carro.placa}`} className="flex items-center gap-4 rounded-[18px] bg-jave-card p-4 transition hover:bg-[#e9edf3]">
           <span className="flex size-12 items-center justify-center rounded-[14px] bg-[#e5eaf6] text-jave-navy"><CarIcon /></span>
           <span className="flex-1"><Placa placa={carro.placa} /></span>
           <span className="text-jave-muted">›</span>

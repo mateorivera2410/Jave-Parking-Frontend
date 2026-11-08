@@ -3,9 +3,18 @@
  * Usan "currentColor": toman el color del texto del contenedor (text-jave-yellow, etc.).
  */
 
-// P dentro de un cuadro → Puestos
+// P dentro de un cuadro → Puestos / Inicio
 export function ParkingIcon() {
   return <span className="flex size-[22px] items-center justify-center rounded-[6px] border-2 border-current text-[13px] font-bold leading-none">P</span>;
+}
+
+// Cuadro con un punto en el centro → Mapa
+export function MapIcon() {
+  return (
+    <span className="flex size-[22px] items-center justify-center rounded-[6px] border-2 border-current">
+      <span className="size-1.5 rounded-full bg-current" />
+    </span>
+  );
 }
 
 // Tarjeta de pago → Pagos
@@ -17,7 +26,7 @@ export function CardIcon() {
   );
 }
 
-// Persona (cabeza + cuerpo) → Usuarios
+// Persona (cabeza + cuerpo) → Usuarios / Perfil
 export function UserIcon() {
   return (
     <span className="relative block h-7 w-[22px]">

@@ -23,7 +23,7 @@ export function UserCard({ user, onDeactivate }: { user: User; onDeactivate: (us
         <p>{user.phone}</p>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-2">
-        <Link href={`/users/${user.id}`} className={btn.dark}>Ver perfil</Link>
+        <Link href={`/admin/users/${user.id}`} className={btn.dark}>Ver perfil</Link>
         <button onClick={() => onDeactivate(user)} className={btn.danger}>Desactivar</button>
       </div>
     </EntityCard>

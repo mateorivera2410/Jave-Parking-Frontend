@@ -19,12 +19,12 @@ export function CarroCard({ carro, ownerName, onDelete }: {
           <Placa placa={carro.placa} />
           <p className="truncate text-xs text-jave-gray">
             Dueño:{" "}
-            <Link href={`/users/${carro.userId}`} className="font-semibold text-jave-navy hover:underline">{ownerName ?? carro.userId}</Link>
+            <Link href={`/admin/users/${carro.userId}`} className="font-semibold text-jave-navy hover:underline">{ownerName ?? carro.userId}</Link>
           </p>
         </div>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-2">
-        <Link href={`/carros/${carro.placa}`} className={btn.dark}>Historial</Link>
+        <Link href={`/admin/carros/${carro.placa}`} className={btn.dark}>Historial</Link>
         <button onClick={() => onDelete(carro)} className={btn.danger}>Eliminar</button>
       </div>
     </EntityCard>
