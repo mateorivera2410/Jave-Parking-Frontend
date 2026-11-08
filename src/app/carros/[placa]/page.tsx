@@ -8,8 +8,10 @@ import type { Pago } from "@/types/api";
 import { useEntityDetail } from "@/hooks/useEntityDetail";
 import { formatHora, formatPesos } from "@/lib/format";
 import { EmptyState, ErrorState, LoadingState } from "@/components/ui/AsyncState";
-import { EntityCard } from "@/components/ui/EntityCard";
 import { EntityDetailLayout } from "@/components/ui/EntityDetailLayout";
+import { SectionLabel } from "@/components/ui/InfoRow";
+import { Placa } from "@/components/ui/Placa";
+import { StatusPill } from "@/components/ui/StatusPill";
 
 export default function CarroDetailPage({ params }: { params: Promise<{ placa: string }> }) {
   // La carpeta se llama [placa], por eso el parámetro es "placa": /carros/ABC123
@@ -27,20 +29,26 @@ export default function CarroDetailPage({ params }: { params: Promise<{ placa: s
   if (!carro) return <EmptyState>Carro no encontrado</EmptyState>;
 
   return (
-    <EntityDetailLayout accent="violet" backHref="/carros" backLabel="carros" title={`Carro ${carro.placa}`} description={<>Dueño: <Link href={`/users/${carro.userId}`} className="font-semibold hover:text-violet-700">{carro.userId}</Link></>}>
-      <EntityCard accent="violet">
-        <h2 className="font-semibold">Historial de facturas ({pagos.length})</h2>
-        <div className="mt-3 divide-y border-t">
-          {pagos.map(pago => (
-            <Link key={pago.id} href={`/pagos/${pago.id}`} className="flex items-center justify-between gap-4 py-3 text-sm hover:bg-slate-50">
-              <span className="font-medium">Factura #{pago.id} • Puesto {pago.parqueaderoId}</span>
-              <span className="text-slate-500">{formatHora(pago.horaEntrada)}</span>
-              <span className="font-semibold">{pago.horaSalida ? formatPesos(pago.total) : "Adentro"}</span>
-            </Link>
-          ))}
-          {pagos.length === 0 && <p className="py-3 text-sm text-slate-500">Este carro todavía no ha entrado al parqueadero.</p>}
-        </div>
-      </EntityCard>
+    <EntityDetailLayout backHref="/carros" backLabel="carros" header={
+      <div className="space-y-3">
+        <Placa placa={carro.placa} size="lg" />
+        <p className="text-sm text-jave-yellow">
+          Dueño: <Link href={`/users/${carro.userId}`} className="font-semibold underline-offset-2 hover:underline">{carro.userId}</Link>
+        </p>
+      </div>
+    }>
+      <SectionLabel>Historial de facturas ({pagos.length})</SectionLabel>
+      {pagos.map(pago => (
+        <Link key={pago.id} href={`/pagos/${pago.id}`} className="flex items-center gap-4 rounded-[18px] bg-jave-card p-4 text-sm transition hover:bg-[#e9edf3]">
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-[14px] bg-gradient-to-br from-jave-navy-2 to-jave-navy font-bold text-jave-yellow">{pago.parqueaderoId}</span>
+          <span className="flex-1">
+            <span className="block font-semibold text-jave-navy">Factura #{pago.id}</span>
+            <span className="block text-xs text-jave-gray">Puesto {pago.parqueaderoId} • {formatHora(pago.horaEntrada)}</span>
+          </span>
+          {pago.horaSalida ? <span className="font-bold text-jave-navy">{formatPesos(pago.total)}</span> : <StatusPill tone="amber">Adentro</StatusPill>}
+        </Link>
+      ))}
+      {pagos.length === 0 && <EmptyState>Este carro todavía no ha entrado al parqueadero</EmptyState>}
     </EntityDetailLayout>
   );
 }

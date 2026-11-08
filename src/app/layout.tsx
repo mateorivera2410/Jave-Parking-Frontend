@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import "@fontsource-variable/inter"; // Fuente Inter del Figma (se instala con npm, no depende de Google)
 import Nav from "@/components/Nav";
 import "./globals.css";
 
@@ -9,29 +10,32 @@ export const metadata: Metadata = {
   description: "Parqueadero de la Javeriana Cali — Next.js + Tailwind — Backend NestJS",
 };
 
-// Layout = marco común: header + menú arriba, footer abajo. Cada página se dibuja en {children}.
+// Layout = marco común: header arriba, barra inferior en celular y footer. Cada página se dibuja en {children}.
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className="h-full">
-      <body className="min-h-full text-slate-900 antialiased">
-        <header className="sticky top-0 z-20 border-b border-slate-950/20 bg-[#131a2a]/95 text-white shadow-lg shadow-slate-950/10 backdrop-blur-xl">
-          <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex flex-wrap items-center gap-3">
-            <Link href="/" className="flex items-center gap-2">
-              <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-300 to-amber-500 text-slate-950 flex items-center justify-center font-bold shadow-lg shadow-amber-500/20">P</span>
-              <span className="font-semibold tracking-tight text-lg">Jave<span className="font-light text-slate-300">Parking</span></span>
-              <span className="hidden md:inline-flex ml-2 px-2 py-0.5 rounded-full bg-white/10 text-amber-200 text-[10px] font-bold tracking-widest border border-white/10">JAVERIANA CALI</span>
+      <body className="min-h-full antialiased">
+        <header className="sticky top-0 z-20 bg-jave-navy text-white shadow-lg shadow-jave-navy/20">
+          <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 md:px-6">
+            <Link href="/" className="flex items-center gap-3">
+              <span className="flex size-10 items-center justify-center rounded-full bg-white text-xl font-bold text-jave-navy">P</span>
+              <span className="leading-tight">
+                <span className="block text-lg font-bold">Jave Parking</span>
+                <span className="block text-[11px] text-jave-yellow">Parqueadero Universitario</span>
+              </span>
             </Link>
             <div className="flex-1" />
-            <Nav />
+            <Nav variant="top" />
           </div>
         </header>
-        <main className="max-w-7xl mx-auto w-full px-4 md:px-6 py-10">{children}</main>
-        <footer className="max-w-7xl mx-auto w-full px-4 md:px-6 pb-8 text-xs text-slate-500">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-2 border-t border-stone-300/80 pt-6">
-            <span>© Jave Parking — Next.js + Tailwind • Backend NestJS en <span className="font-mono bg-white/80 border border-stone-200 px-2 py-1 rounded">{process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}</span></span>
-            <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />Plataformas Computacionales 2026-2</span>
+        <main className="mx-auto w-full max-w-6xl px-4 pb-32 pt-6 md:px-6 md:pb-12 md:pt-10">{children}</main>
+        <footer className="mx-auto hidden w-full max-w-6xl px-6 pb-8 text-xs text-jave-gray md:block">
+          <div className="flex items-center justify-between gap-2 border-t border-jave-line pt-6">
+            <span>Pontificia Universidad Javeriana Cali · Backend en <span className="rounded bg-jave-card px-2 py-1 font-mono">{process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}</span></span>
+            <span className="text-jave-yellow-2">Plataformas Computacionales 2026-2</span>
           </div>
         </footer>
+        <Nav variant="bottom" />
       </body>
     </html>
   );

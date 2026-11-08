@@ -1,13 +1,16 @@
 import type { ComponentPropsWithoutRef, FormEvent, ReactNode } from "react";
 
+// Apariencia común de los campos (Figma: blancos, redondeados, foco amarillo).
+const field = "w-full rounded-[14px] border border-jave-line bg-white px-4 py-3 text-sm text-jave-navy placeholder:text-jave-muted focus:outline-none focus:ring-2 focus:ring-jave-yellow";
+
 // Reutiliza la apariencia base de todos los <input> sin ocultar sus props nativas.
 export function FormInput({ className = "", ...props }: ComponentPropsWithoutRef<"input">) {
-  return <input className={`border rounded-xl px-3 py-2.5 text-sm bg-white focus:outline-none ${className}`} {...props} />;
+  return <input className={`${field} ${className}`} {...props} />;
 }
 
 // Igual que FormInput, pero para los campos <select>.
 export function FormSelect({ className = "", children, ...props }: ComponentPropsWithoutRef<"select">) {
-  return <select className={`border rounded-xl px-3 py-2.5 text-sm bg-white focus:outline-none ${className}`} {...props}>{children}</select>;
+  return <select className={`${field} ${className}`} {...props}>{children}</select>;
 }
 
 // El formulario recibe la acción desde su página. Así el componente visual no conoce ningún servicio HTTP.
@@ -22,5 +25,5 @@ export function FormPanel({ children, onSubmit, className = "" }: {
     void onSubmit();
   }
 
-  return <form onSubmit={submit} className={className}>{children}</form>;
+  return <form onSubmit={submit} className={`rounded-[18px] bg-jave-card p-4 ${className}`}>{children}</form>;
 }

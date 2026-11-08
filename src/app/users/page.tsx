@@ -51,9 +51,11 @@ export default function UsersPage() {
   // eslint-disable-next-line
   useEffect(() => { void load(); }, []);
 
+  const dentro = users.filter(u => u.isInside).length;
+
   return (
     <div className="space-y-6">
-      <EntityPageHeader accent="blue" title="Usuarios" description={<>Estudiantes con cuenta activa • {users.length} registrados</>} action={<button onClick={() => void load()} className="px-4 py-1.5 rounded-full bg-slate-900 text-white text-sm font-medium hover:bg-black">Recargar</button>}>
+      <EntityPageHeader eyebrow="Usuarios" title="Estudiantes" description={<>{users.length} con cuenta activa • {dentro} dentro de la U</>} onReload={() => void load()}>
         {/* UserCreateForm recibe el estado controlado y reporta cambios con onChange. */}
         <UserCreateForm value={form} onChange={setForm} onSubmit={create} />
       </EntityPageHeader>
@@ -61,7 +63,7 @@ export default function UsersPage() {
       {loading && <LoadingState />}
       {err && <ErrorState message={err} />}
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {users.map(user => <UserCard key={user.id} user={user} onDeactivate={deactivate} />)}
       </div>
       {users.length === 0 && !loading && <EmptyState>No hay usuarios — crea uno arriba</EmptyState>}

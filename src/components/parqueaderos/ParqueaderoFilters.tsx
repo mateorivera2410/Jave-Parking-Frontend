@@ -10,13 +10,20 @@ export function ParqueaderoFilters({ value, onChange }: {
   onChange: (value: string) => void;
 }) {
   return (
-    <div className="mt-6 flex flex-wrap gap-2">
-      {opciones.map(opcion => (
-        <button key={opcion.value} type="button" onClick={() => onChange(opcion.value)}
-          className={`px-5 py-2 rounded-full text-sm font-semibold border transition ${value === opcion.value ? "bg-slate-900 text-white border-slate-900" : "bg-white hover:bg-slate-100"}`}>
-          {opcion.label}
-        </button>
-      ))}
+    <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="inline-flex rounded-[14px] bg-white p-1 shadow-sm">
+        {opciones.map(opcion => (
+          <button key={opcion.value} type="button" onClick={() => onChange(opcion.value)}
+            className={`rounded-[10px] px-4 py-2 text-sm font-semibold transition ${value === opcion.value ? "bg-jave-navy text-white" : "text-jave-gray hover:text-jave-navy"}`}>
+            {opcion.label}
+          </button>
+        ))}
+      </div>
+      {/* Leyenda de colores, igual que en el mapa del Figma */}
+      <div className="flex items-center gap-[18px] text-xs font-semibold text-jave-gray">
+        <span className="flex items-center gap-1.5"><span className="size-[9px] rounded-[3px] bg-jave-green" />Libre</span>
+        <span className="flex items-center gap-1.5"><span className="size-[9px] rounded-[3px] bg-jave-red" />Ocupado</span>
+      </div>
     </div>
   );
 }

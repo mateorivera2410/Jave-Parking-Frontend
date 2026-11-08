@@ -1,4 +1,5 @@
 import { FormInput, FormPanel } from "@/components/ui/FormControls";
+import { btn } from "@/components/ui/buttons";
 
 export type UserFormValues = { id: string; name: string; email: string; phone: string };
 
@@ -9,12 +10,12 @@ export function UserCreateForm({ value, onChange, onSubmit }: {
   onSubmit: () => void | Promise<void>;
 }) {
   return (
-    <FormPanel onSubmit={onSubmit} className="mt-6 grid md:grid-cols-4 gap-3 p-4 rounded-2xl bg-slate-50 border">
-      <FormInput className="focus:ring-2 focus:ring-blue-500" placeholder="Código (8 dígitos)" maxLength={8} value={value.id} onChange={event => onChange({ ...value, id: event.target.value })} required />
-      <FormInput className="focus:ring-2 focus:ring-blue-500" placeholder="Nombre" value={value.name} onChange={event => onChange({ ...value, name: event.target.value })} required />
-      <FormInput className="focus:ring-2 focus:ring-blue-500" type="email" placeholder="Correo" value={value.email} onChange={event => onChange({ ...value, email: event.target.value })} required />
-      <FormInput className="focus:ring-2 focus:ring-blue-500" placeholder="Teléfono 300..." value={value.phone} onChange={event => onChange({ ...value, phone: event.target.value })} required />
-      <button className="md:col-span-4 py-2.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow hover:opacity-90 transition">+ Crear usuario</button>
+    <FormPanel onSubmit={onSubmit} className="grid gap-3 md:grid-cols-4">
+      <FormInput placeholder="Código (8 dígitos)" maxLength={8} value={value.id} onChange={event => onChange({ ...value, id: event.target.value })} required />
+      <FormInput placeholder="Nombre" value={value.name} onChange={event => onChange({ ...value, name: event.target.value })} required />
+      <FormInput type="email" placeholder="Correo" value={value.email} onChange={event => onChange({ ...value, email: event.target.value })} required />
+      <FormInput placeholder="Teléfono 300..." value={value.phone} onChange={event => onChange({ ...value, phone: event.target.value })} required />
+      <button className={`${btn.primary} md:col-span-4`}>+ Crear usuario</button>
     </FormPanel>
   );
 }

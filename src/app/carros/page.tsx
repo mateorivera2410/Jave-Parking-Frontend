@@ -61,14 +61,14 @@ export default function CarrosPage() {
 
   return (
     <div className="space-y-6">
-      <EntityPageHeader accent="violet" title="Carros" description={<>Vehículos registrados • {carros.length} carros</>} action={<button onClick={() => void load()} className="px-4 py-1.5 rounded-full bg-slate-900 text-white text-sm font-medium hover:bg-black">Recargar</button>}>
+      <EntityPageHeader eyebrow="Carros" title="Vehículos registrados" description={<>{carros.length} carros • cada uno con su dueño</>} onReload={() => void load()}>
         <CarroCreateForm users={users} value={form} onChange={setForm} onSubmit={create} />
       </EntityPageHeader>
 
       {loading && <LoadingState />}
       {err && <ErrorState message={err} />}
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {carros.map(carro => <CarroCard key={carro.placa} carro={carro} ownerName={ownerName(carro.userId)} onDelete={remove} />)}
       </div>
       {carros.length === 0 && !loading && <EmptyState>No hay carros — registra uno arriba</EmptyState>}

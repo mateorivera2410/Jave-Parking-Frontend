@@ -1,22 +1,32 @@
 @import "tailwindcss";
 
-:root {
-  --background: #f7f4ee;
-  --foreground: #172033;
-}
+/*
+ * Colores del diseño de Figma de Jave Parking.
+ * Se usan como clases de Tailwind: bg-jave-navy, text-jave-yellow, etc.
+ * Si un color cambia, se cambia SOLO aquí y cambia en toda la app.
+ */
+@theme {
+  --color-jave-navy: #142c6e; /* azul Javeriana: headers, títulos */
+  --color-jave-navy-2: #2447a8; /* azul claro para los degradados */
+  --color-jave-yellow: #ffc72c; /* amarillo: botones principales, placas */
+  --color-jave-yellow-2: #d9a015;
+  --color-jave-green: #35a55e; /* libre / pagado */
+  --color-jave-green-bg: #e4f5ea;
+  --color-jave-red: #e04f4f; /* ocupado / eliminar */
+  --color-jave-red-bg: #fbe9e9;
+  --color-jave-amber: #b9781f; /* adentro / pocos cupos */
+  --color-jave-amber-bg: #fff4dd;
+  --color-jave-gray: #6b7280; /* textos secundarios */
+  --color-jave-muted: #9aa2b1; /* íconos inactivos */
+  --color-jave-card: #f2f4f7; /* fondo de tarjetas */
+  --color-jave-line: #eef0f4; /* bordes y divisores */
+  --color-jave-pavement: #e8edf2; /* "pavimento" del mapa de puestos */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Inter Variable", Arial, Helvetica, sans-serif;
 }
 
 body {
-  background:
-    radial-gradient(circle at top right, rgb(251 191 36 / 12%), transparent 24rem),
-    radial-gradient(circle at left 22rem, rgb(56 189 248 / 8%), transparent 30rem),
-    var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: var(--color-jave-navy);
+  font-family: var(--font-sans);
 }

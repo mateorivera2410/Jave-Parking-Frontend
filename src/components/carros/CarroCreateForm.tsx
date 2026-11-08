@@ -1,5 +1,6 @@
 import type { User } from "@/types/api";
 import { FormInput, FormPanel, FormSelect } from "@/components/ui/FormControls";
+import { btn } from "@/components/ui/buttons";
 
 export type CarroFormValues = { placa: string; userId: string };
 
@@ -11,13 +12,13 @@ export function CarroCreateForm({ users, value, onChange, onSubmit }: {
   onSubmit: () => void | Promise<void>;
 }) {
   return (
-    <FormPanel onSubmit={onSubmit} className="mt-6 grid md:grid-cols-3 gap-3 p-4 rounded-2xl bg-slate-50 border">
-      <FormInput className="font-mono uppercase placeholder:normal-case focus:ring-2 focus:ring-violet-500" placeholder="Placa ABC123" maxLength={6} value={value.placa} onChange={event => onChange({ ...value, placa: event.target.value.toUpperCase() })} required />
-      <FormSelect className="focus:ring-2 focus:ring-violet-500" value={value.userId} onChange={event => onChange({ ...value, userId: event.target.value })} required>
+    <FormPanel onSubmit={onSubmit} className="grid gap-3 md:grid-cols-3">
+      <FormInput className="font-bold uppercase tracking-[1px] placeholder:font-normal placeholder:normal-case placeholder:tracking-normal" placeholder="Placa ABC123" maxLength={6} value={value.placa} onChange={event => onChange({ ...value, placa: event.target.value.toUpperCase() })} required />
+      <FormSelect value={value.userId} onChange={event => onChange({ ...value, userId: event.target.value })} required>
         <option value="">Selecciona el dueño…</option>
         {users.map(user => <option key={user.id} value={user.id}>{user.id} — {user.name}</option>)}
       </FormSelect>
-      <button className="py-2.5 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold shadow hover:opacity-90 transition">+ Registrar carro</button>
+      <button className={btn.primary}>+ Registrar carro</button>
     </FormPanel>
   );
 }

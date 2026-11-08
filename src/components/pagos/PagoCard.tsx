@@ -2,36 +2,43 @@ import Link from "next/link";
 import type { Pago } from "@/types/api";
 import { formatHora, formatPesos } from "@/lib/format";
 import { EntityCard } from "@/components/ui/EntityCard";
+import { InfoRow } from "@/components/ui/InfoRow";
+import { Placa } from "@/components/ui/Placa";
+import { StatusPill } from "@/components/ui/StatusPill";
+import { btn } from "@/components/ui/buttons";
 
-// Una factura. Si el carro sigue adentro muestra "Registrar salida"; si ya pagó, deja eliminarla.
-export function PagoCard({ pago, onSalida, onDelete }: {
-  pago: Pago;
-  onSalida: (pago: Pago) => void;
-  onDelete: (pago: Pago) => void;
-}) {
+// Una factura. Si el carro sigue adentro lleva a pagar la salida; si ya pagó, deja verla o eliminarla.
+export function PagoCard({ pago, onDelete }: { pago: Pago; onDelete: (pago: Pago) => void }) {
   const adentro = pago.horaSalida === null;
   return (
-    <EntityCard accent={adentro ? "slate" : "emerald"}>
+    <EntityCard>
       <div className="flex items-center justify-between gap-3">
-        <span className="font-semibold">Factura #{pago.id}</span>
-        {adentro
-          ? <span className="text-xs px-3 py-1 rounded-full font-bold border bg-amber-50 text-amber-700 border-amber-200">ADENTRO</span>
-          : <span className="text-xs px-3 py-1 rounded-full font-bold border bg-emerald-50 text-emerald-700 border-emerald-200">PAGADO</span>}
+        <span className="font-semibold text-jave-navy">Factura #{pago.id}</span>
+        {adentro ? <StatusPill tone="amber">Adentro</StatusPill> : <StatusPill tone="green">Pagado</StatusPill>}
       </div>
       <div className="mt-3 flex items-center gap-3">
-        <Link href={`/carros/${pago.placa}`} className="px-3 py-1 rounded-lg bg-yellow-300 border-2 border-slate-900 font-mono font-bold hover:bg-yellow-200">{pago.placa}</Link>
-        <Link href={`/parqueaderos/${pago.parqueaderoId}`} className="text-sm text-slate-600 hover:text-slate-900">Puesto {pago.parqueaderoId}</Link>
+        <Placa placa={pago.placa} />
+        <span className="text-sm text-jave-gray">Puesto {pago.parqueaderoId}</span>
       </div>
-      <dl className="mt-3 grid grid-cols-3 gap-2 text-sm">
-        <div><dt className="text-xs text-slate-500">Entrada</dt><dd>{formatHora(pago.horaEntrada)}</dd></div>
-        <div><dt className="text-xs text-slate-500">Salida</dt><dd>{formatHora(pago.horaSalida)}</dd></div>
-        <div><dt className="text-xs text-slate-500">Total</dt><dd className="font-bold">{formatPesos(pago.total)}</dd></div>
-      </dl>
+      <div className="mt-4 space-y-2">
+        <InfoRow label="Entrada">{formatHora(pago.horaEntrada)}</InfoRow>
+        <InfoRow label="Salida">{formatHora(pago.horaSalida)}</InfoRow>
+      </div>
+      {!adentro && (
+        <div className="mt-3 flex items-center justify-between rounded-[14px] bg-jave-navy px-4 py-3">
+          <span className="text-sm font-medium text-white">Total pagado</span>
+          <span className="text-lg font-bold text-jave-yellow">{formatPesos(pago.total)}</span>
+        </div>
+      )}
       <div className="mt-4 grid grid-cols-2 gap-2">
-        <Link href={`/pagos/${pago.id}`} className="py-2 rounded-full bg-slate-900 text-white text-center text-xs font-semibold hover:bg-black">Ver detalle</Link>
-        {adentro
-          ? <button onClick={() => onSalida(pago)} className="py-2 rounded-full bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700">Registrar salida</button>
-          : <button onClick={() => onDelete(pago)} className="py-2 rounded-full bg-white border text-xs font-semibold hover:bg-slate-50">Eliminar</button>}
+        {adentro ? (
+          <Link href={`/pagos/${pago.id}`} className={`${btn.primary} col-span-2`}>Pagar y registrar salida</Link>
+        ) : (
+          <>
+            <Link href={`/pagos/${pago.id}`} className={btn.dark}>Ver factura</Link>
+            <button onClick={() => onDelete(pago)} className={btn.danger}>Eliminar</button>
+          </>
+        )}
       </div>
     </EntityCard>
   );
